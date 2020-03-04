@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import StorySelector from "../Componen ts/StorySelector"
+// import StorySelector from "../Components/StorySelector"
+import StoryDetail from "../Components/StoryDetail"
 
 
 class StoryContainer extends Component {
@@ -19,25 +20,15 @@ class StoryContainer extends Component {
       .then(response => response.json())
       .then(storyIDs => fetch(`https://hacker-news.firebaseio.com/v0/item/${storyIDs[0]}.json`))
       .then(response => response.json())
-      .then(console.log)
-
-
-    // .then(stories => this.setState({ stories: stories }))
-    // .catch(error => console.error)
-  }
-
-  componentDidUpdate() {
-    fetch(this.state.selectedStoryID)
-      .then(response => response.json())
-      .then(storyObject => this.setState({ selectedStory: storyObject }))
-      .catch(err => console.error)
+      .then(stories => this.setState({ stories: stories }))
+      .catch(error => console.error)
   }
 
   render() {
     return (
       <article>
-        <h2> This is the Story Container</h2>
-        {/* <StorySelector /> */}
+        <h1> HackerNews</h1>
+        <StoryDetail story={this.state.stories} />
       </article>
     );
   }
@@ -46,4 +37,3 @@ class StoryContainer extends Component {
 
 
 export default StoryContainer
-

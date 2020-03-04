@@ -6,6 +6,5 @@ import React from 'react';
 //     return <option value={story.selectedStoryID} key={story.selectedStoryID}>
 //     </option>
 //   })
-}
 
-export default StorySelector
+// export default StorySelector
