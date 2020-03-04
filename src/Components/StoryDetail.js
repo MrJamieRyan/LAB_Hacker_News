@@ -13,4 +13,4 @@ const StoryDetail = (props) => {
   )
 }
 
-export default StoryDetail
+export default StoryDetail;

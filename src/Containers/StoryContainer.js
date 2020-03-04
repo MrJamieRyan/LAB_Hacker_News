@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import StorySelector from "../Components/StorySelector"
+import StorySelector from "../Components/StorySelector"
 import StoryDetail from "../Components/StoryDetail"
 
 
@@ -11,6 +11,13 @@ class StoryContainer extends Component {
       stories: [],
       selectedStoryID: ''
     };
+    this.handleStorySelected = this.handleStorySelected.bind(this)
+  }
+
+
+
+  handleStorySelected(storyID) {
+    this.setState({ selectedStoryID: storyID })
   }
 
   componentDidMount() {
@@ -31,22 +38,28 @@ class StoryContainer extends Component {
       .then(responses => responses.map(response => response.json()))
       .then(resolvedPromises => Promise.all(resolvedPromises))
       .then(stories => this.setState({ stories: stories }))
+  }
 
+  getSelectedStory() {
+    const selectedStory = this.state.stories.find(story => {
+      return story.storyID === this.state.selectedStoryID
+    })
 
-
-    // .then(response => response.json())
-    // .catch(error => console.error)
+    return selectedStory
   }
 
   render() {
     return (
       <article>
         <h1> HackerNews</h1>
-        <StoryDetail story={this.state.stories} />
+        <StorySelector stories={this.state.stories}
+          onStorySelected={this.handleStorySelected} />
+        <StoryDetail story={this.getSelectedStory()} />
       </article>
     );
   }
 }
+
 
 
 
