@@ -16,12 +16,26 @@ class StoryContainer extends Component {
   componentDidMount() {
     const url = "https://hacker-news.firebaseio.com/v0/topstories.json"
 
+    // `https://hacker-news.firebaseio.com/v0/item/${storyIDs[0]}.json`
+
+    const convertUrlsToFetches = tenStoryUrls => tenStoryUrls.map(storyUrl => fetch(storyUrl))
+
+    const convertResponseToJSON = response => response.json()
+
     fetch(url)
-      .then(response => response.json())
-      .then(storyIDs => fetch(`https://hacker-news.firebaseio.com/v0/item/${storyIDs[0]}.json`))
-      .then(response => response.json())
+      .then(convertResponseToJSON)
+      .then(storyIDs => storyIDs.map(storyID => `https://hacker-news.firebaseio.com/v0/item/${storyID}.json`))
+      .then(storyUrls => storyUrls.slice(0, 10))
+      .then(convertUrlsToFetches)
+      .then(fetchPromises => Promise.all(fetchPromises))
+      .then(responses => responses.map(response => response.json()))
+      .then(resolvedPromises => Promise.all(resolvedPromises))
       .then(stories => this.setState({ stories: stories }))
-      .catch(error => console.error)
+
+
+
+    // .then(response => response.json())
+    // .catch(error => console.error)
   }
 
   render() {
